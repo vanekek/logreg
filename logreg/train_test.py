@@ -30,7 +30,6 @@ def train(model, criterion, optimizer, train_loader, num_epochs, input_size):
 def test(model, test_loader, input_size):
     # Test the model
     # In test phase, we don't need to compute gradients (for memory efficiency)
-    model.eval()
     with torch.no_grad():
         correct = 0
         total = 0
