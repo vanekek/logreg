@@ -4,7 +4,7 @@ from model import LogReg
 from train_test import test
 
 
-def main(batch_size=100, save_path="model.pth"):
+def main(batch_size=100, save_path="model.pth", pred_path="predictions.csv"):
     # Hyper-parameters
     input_size = 784  # 28x28
     num_classes = 10
@@ -16,7 +16,7 @@ def main(batch_size=100, save_path="model.pth"):
     test_loader = load_test_data(batch_size)
 
     # Test the model
-    test(model, test_loader, input_size)
+    test(model, test_loader, input_size, pred_path)
 
 
 if __name__ == "__main__":

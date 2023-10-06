@@ -1,3 +1,4 @@
+import pandas as pd
 import torch
 
 
@@ -27,18 +28,24 @@ def train(model, criterion, optimizer, train_loader, num_epochs, input_size):
                 )
 
 
-def test(model, test_loader, input_size):
+def test(model, test_loader, input_size, pred_path):
     # Test the model
     # In test phase, we don't need to compute gradients (for memory efficiency)
     with torch.no_grad():
         correct = 0
         total = 0
+        predictions = []
         for images, labels in test_loader:
             images = images.reshape(-1, input_size)
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
+            prediction = [x.item() for x in predicted]
+            predictions.extend(prediction)
             total += labels.size(0)
             correct += (predicted == labels).sum()
+
+        predictions_frame = pd.DataFrame(data={"labels": predictions})
+        predictions_frame.to_csv(pred_path)
 
         print(
             "Accuracy of the model on the 10000 test images: {} %".format(
