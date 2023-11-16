@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from mnist import load_train_data
 from model import LogReg
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 from train_test import train
 
 
@@ -16,7 +16,8 @@ def main(cfg: DictConfig):
     train_loader = load_train_data(cfg["training"]["batch_size"])
 
     # Initiating model
-    model = LogReg(cfg["model"]).to(device)
+    model_params = OmegaConf.to_container(cfg["model"])
+    model = LogReg(**model_params).to(device)
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
@@ -28,7 +29,7 @@ def main(cfg: DictConfig):
         criterion,
         optimizer,
         train_loader,
-        cfg["training"]["num_epochs"],
+        cfg["training"]["epochs"],
         cfg["model"]["input_size"],
     )
 
