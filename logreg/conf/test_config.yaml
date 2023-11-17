@@ -1,0 +1,7 @@
+model:
+    input_size: 784
+    num_classes: 10
+test:
+    batch_size: 64
+    save_path: "model.pth"
+    pred_path: "predictions.csv"
